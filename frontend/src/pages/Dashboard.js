@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import ServiceCard from '../components/ServiceCard';
 import { createRequest } from '../api';
+import CustomRequestBox from '../components/CustomRequestBox';
 
 const services = [
   { id: 1, serviceName: 'Grocery Shopping', description: 'Get groceries delivered to your door', icon: '🛒' },
@@ -12,9 +13,10 @@ const services = [
   { id: 7, serviceName: 'Meal Delivery', description: 'Fresh meals delivered to you', icon: '🍱' },
 ];
 
-function Dashboard() {
+function Dashboard({ userName, setUserName }) {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
+    
     async function handleRequest(service) {
   setLoading(true);
   setMessage('');
@@ -23,7 +25,7 @@ function Dashboard() {
     await createRequest({
       serviceName: service.serviceName,
       description: service.description,
-      userName: 'Riddhi',
+      userName: userName,
     });
 
     setMessage(`✅ "${service.serviceName}" request submitted successfully!`);
@@ -38,6 +40,13 @@ function Dashboard() {
     <div style={styles.container}>
       <h1 style={styles.heading}>Welcome to CareEase 👋</h1>
       <p style={styles.subheading}>What can we help you with today?</p>
+      <input
+        type="text"
+        placeholder="Enter your name"
+        value={userName}
+        onChange={(e) => setUserName(e.target.value)}
+        style={styles.input}
+        />
       {message && (
         <p style={styles.message}>{message}</p>
         )}
@@ -53,6 +62,7 @@ function Dashboard() {
             />
         ))}
       </div>
+      <CustomRequestBox userName={userName} />
     </div>
   );
 }
@@ -61,8 +71,8 @@ const styles = {
   container: {
     minHeight: '100vh',
     backgroundColor: '#f0f4f8',
-    padding: '40px 20px',
-  },
+    padding: '32px 20px',
+    },
   heading: {
     textAlign: 'center',
     fontSize: '28px',
@@ -87,7 +97,27 @@ const styles = {
   padding: '10px 20px',
   borderRadius: '8px',
   marginBottom: '20px',
-},
+    },
+    input: {
+    display: 'block',
+    margin: '0 auto 24px auto',
+    padding: '10px 16px',
+    fontSize: '15px',
+    borderRadius: '8px',
+    border: '1px solid #cbd5e0',
+    width: '260px',
+    },
+    navButton: {
+    display: 'block',
+    margin: '0 auto 24px auto',
+    backgroundColor: 'transparent',
+    border: '2px solid #4A90D9',
+    color: '#4A90D9',
+    borderRadius: '8px',
+    padding: '10px 20px',
+    fontSize: '14px',
+    cursor: 'pointer',
+    },
 };
 
 export default Dashboard;
