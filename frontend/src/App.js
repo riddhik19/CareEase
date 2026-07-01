@@ -3,41 +3,34 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import MyRequests from './pages/MyRequests';
+import Register from './pages/Register';
+import Login from './pages/Login';
 import Navbar from './components/Navbar';
 
-function AppContent({ userName, setUserName }) {
+function AppContent() {
   const location = useLocation();
-  const showNavbar = location.pathname !== '/';
+  const userName = localStorage.getItem('userName') || '';
+  const hideNavbarPaths = ['/', '/login', '/register'];
+  const showNavbar = !hideNavbarPaths.includes(location.pathname);
 
   return (
     <>
       {showNavbar && <Navbar userName={userName} />}
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route
-          path="/dashboard"
-          element={
-            <Dashboard
-              userName={userName}
-              setUserName={setUserName}
-            />
-          }
-        />
-        <Route
-          path="/my-requests"
-          element={<MyRequests userName={userName} />}
-        />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/my-requests" element={<MyRequests />} />
       </Routes>
     </>
   );
 }
 
 function App() {
-  const [userName, setUserName] = useState('');
-
   return (
     <BrowserRouter>
-      <AppContent userName={userName} setUserName={setUserName} />
+      <AppContent />
     </BrowserRouter>
   );
 }

@@ -10,7 +10,7 @@ function Landing() {
         <p style={styles.subtitle}>
           Helping elderly people get assistance with everyday tasks — groceries, medicines, chores, and more.
         </p>
-        <button style={styles.button} onClick={() => navigate('/dashboard')}>
+        <button style={styles.button} onClick={() => navigate('/register')}>
           Get Started
         </button>
       </div>

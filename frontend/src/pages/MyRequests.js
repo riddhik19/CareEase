@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { getRequests } from '../api';
 import { useNavigate } from 'react-router-dom';
 
-function MyRequests({ userName }) {
+function MyRequests() {
+  const userName = localStorage.getItem('userName') || '';
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');

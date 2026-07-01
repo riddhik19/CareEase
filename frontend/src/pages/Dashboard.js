@@ -13,7 +13,8 @@ const services = [
   { id: 7, serviceName: 'Meal Delivery', description: 'Fresh meals delivered to you', icon: '🍱' },
 ];
 
-function Dashboard({ userName, setUserName }) {
+function Dashboard() {
+  const userName = localStorage.getItem('userName') || 'User';
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     
@@ -25,7 +26,6 @@ function Dashboard({ userName, setUserName }) {
     await createRequest({
       serviceName: service.serviceName,
       description: service.description,
-      userName: userName,
     });
 
     setMessage(`✅ "${service.serviceName}" request submitted successfully!`);
@@ -40,13 +40,6 @@ function Dashboard({ userName, setUserName }) {
     <div style={styles.container}>
       <h1 style={styles.heading}>Welcome to CareEase 👋</h1>
       <p style={styles.subheading}>What can we help you with today?</p>
-      <input
-        type="text"
-        placeholder="Enter your name"
-        value={userName}
-        onChange={(e) => setUserName(e.target.value)}
-        style={styles.input}
-        />
       {message && (
         <p style={styles.message}>{message}</p>
         )}
@@ -62,7 +55,7 @@ function Dashboard({ userName, setUserName }) {
             />
         ))}
       </div>
-      <CustomRequestBox userName={userName} />
+      <CustomRequestBox/>
     </div>
   );
 }

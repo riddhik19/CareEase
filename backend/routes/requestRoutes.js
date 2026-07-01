@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const ServiceRequest = require('../models/ServiceRequest');
+const protect = require('../middleware/authMiddleware');
 
-router.post('/', async (req, res) => {
+router.post('/', protect, async (req, res) => {
   try {
     const { serviceName, description, userName } = req.body;
 
@@ -13,7 +14,7 @@ router.post('/', async (req, res) => {
     const newRequest = new ServiceRequest({
       serviceName,
       description,
-      userName,
+      userName: req.user.name,
     });
 
     const savedRequest = await newRequest.save();

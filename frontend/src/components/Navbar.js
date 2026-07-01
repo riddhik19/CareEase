@@ -8,6 +8,12 @@ function Navbar({ userName }) {
     return location.pathname === path;
   }
 
+  function handleLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
+    navigate('/login');
+  }
+
   return (
     <nav style={styles.nav}>
       <div style={styles.logo} onClick={() => navigate('/')}>
@@ -35,6 +41,9 @@ function Navbar({ userName }) {
         {userName && (
           <span style={styles.userName}>Hi, {userName} 👋</span>
         )}
+        <button style={styles.logoutButton} onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </nav>
   );
@@ -70,6 +79,16 @@ const styles = {
   userName: {
     color: '#e2e8f0',
     fontSize: '14px',
+  },
+  logoutButton: {
+    backgroundColor: '#ffffff',
+    color: '#4A90D9',
+    border: 'none',
+    borderRadius: '6px',
+    padding: '6px 14px',
+    fontSize: '13px',
+    cursor: 'pointer',
+    fontWeight: '600',
   },
 };
 
