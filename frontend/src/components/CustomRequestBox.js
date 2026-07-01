@@ -1,16 +1,13 @@
 import { useState } from 'react';
 import { createRequest } from '../api';
 
-function CustomRequestBox({ userName }) {
+function CustomRequestBox() {
+  const userName = localStorage.getItem('userName') || 'Guest';
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
   async function handleSubmit() {
-    if(!userName || !userName.trim()){
-        setMessage("Please enter your name first");
-        return;
-    }
     if (!customText.trim()) {
       setMessage('❌ Please describe what you need help with.');
       return;
@@ -23,7 +20,6 @@ function CustomRequestBox({ userName }) {
       await createRequest({
         serviceName: 'Custom Request',
         description: customText,
-        userName: userName,
       });
 
       setMessage('✅ Your custom request was submitted!');
