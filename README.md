@@ -10,21 +10,20 @@ My Requests Page — View all your submitted requests with live status badges
 Request Status Tracking — Every request is tracked as Pending, Accepted, or Completed
 Responsive Design — Works cleanly on both desktop and mobile
 
-🛠️ Tech Stack
-Frontend
+## 🛠️ Tech Stack
 
-React.js
-React Router DOM
-Fetch API
+### Frontend
+- React.js
+- React Router DOM
+- Fetch API
 
-Backend
-
-Node.js
-Express.js
-MongoDB
-Mongoose
-JWT (jsonwebtoken)
-bcryptjs
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT (jsonwebtoken)
+- bcryptjs
 
 📸 Screenshots
 ![alt text](screenshots/image.png)
