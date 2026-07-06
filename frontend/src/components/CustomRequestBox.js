@@ -20,6 +20,7 @@ function CustomRequestBox() {
       await createRequest({
         serviceName: 'Custom Request',
         description: customText,
+        price: 0,
       });
 
       setMessage('✅ Your custom request was submitted!');

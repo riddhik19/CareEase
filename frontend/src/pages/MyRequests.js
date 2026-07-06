@@ -69,6 +69,7 @@ function MyRequests() {
                   {request.status}
                 </span>
               </div>
+              <p style={styles.price}>₹{request.price}</p>
               {request.description ? (
                 <p style={styles.description}>{request.description}</p>
               ) : null}
@@ -157,6 +158,12 @@ const styles = {
     color: '#718096',
     marginTop: '60px',
   },
+  price: {
+  fontSize: '15px',
+  fontWeight: '700',
+  color: '#4A90D9',
+  margin: '4px 0',
+},
 };
 
 export default MyRequests;

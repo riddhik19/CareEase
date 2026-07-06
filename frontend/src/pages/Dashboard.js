@@ -2,39 +2,27 @@ import { useState } from 'react';
 import ServiceCard from '../components/ServiceCard';
 import { createRequest } from '../api';
 import CustomRequestBox from '../components/CustomRequestBox';
+import { useNavigate } from 'react-router-dom';
 
 const services = [
-  { id: 1, serviceName: 'Grocery Shopping', description: 'Get groceries delivered to your door', icon: '🛒' },
-  { id: 2, serviceName: 'Medicine Pickup', description: 'We collect your prescriptions for you', icon: '💊' },
-  { id: 3, serviceName: 'Household Chores', description: 'Help with cleaning and tidying up', icon: '🧹' },
-  { id: 4, serviceName: 'Dog Walking', description: 'Daily walks for your furry friend', icon: '🐕' },
-  { id: 5, serviceName: 'Hospital Visit', description: 'Assistance for medical appointments', icon: '🏥' },
-  { id: 6, serviceName: 'Bill Payments', description: 'Help managing and paying your bills', icon: '💳' },
-  { id: 7, serviceName: 'Meal Delivery', description: 'Fresh meals delivered to you', icon: '🍱' },
+  { id: 1, serviceName: 'Grocery Shopping', description: 'Get groceries delivered to your door', icon: '🛒', price: 199 },
+  { id: 2, serviceName: 'Medicine Pickup', description: 'We collect your prescriptions for you', icon: '💊', price: 99 },
+  { id: 3, serviceName: 'Household Chores', description: 'Help with cleaning and tidying up', icon: '🧹', price: 299 },
+  { id: 4, serviceName: 'Dog Walking', description: 'Daily walks for your furry friend', icon: '🐕', price: 149 },
+  { id: 5, serviceName: 'Hospital Visit', description: 'Assistance for medical appointments', icon: '🏥', price: 399 },
+  { id: 6, serviceName: 'Bill Payments', description: 'Help managing and paying your bills', icon: '💳', price: 49 },
+  { id: 7, serviceName: 'Meal Delivery', description: 'Fresh meals delivered to you', icon: '🍱', price: 179 },
 ];
 
 function Dashboard() {
+  const navigate = useNavigate();
   const userName = localStorage.getItem('userName') || 'User';
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     
-    async function handleRequest(service) {
-  setLoading(true);
-  setMessage('');
-
-  try {
-    await createRequest({
-      serviceName: service.serviceName,
-      description: service.description,
-    });
-
-    setMessage(`✅ "${service.serviceName}" request submitted successfully!`);
-  } catch (error) {
-    setMessage(`Failed to submit request: ${error.message}`);
-  } finally {
-    setLoading(false);
+    function handleRequest(service) {
+  navigate('/service-detail', { state: { service } });
   }
-}
 
   return (
   <div style={styles.container}>
