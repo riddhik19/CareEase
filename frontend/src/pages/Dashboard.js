@@ -37,27 +37,46 @@ function Dashboard() {
 }
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>Welcome to CareEase 👋</h1>
-      <p style={styles.subheading}>What can we help you with today?</p>
-      {message && (
-        <p style={styles.message}>{message}</p>
-        )}
-      <div style={styles.grid}>
-        {services.map((service) => (
-          <ServiceCard
-            key={service.id}
-            serviceName={service.serviceName}
-            description={service.description}
-            icon={service.icon}
-            onRequest={() => handleRequest(service)}
-            loading={loading}
-            />
-        ))}
-      </div>
-      <CustomRequestBox/>
+  <div style={styles.container}>
+    <h1 style={styles.heading}>Welcome to CareEase 👋</h1>
+    <p style={styles.subheading}>What can we help you with today?</p>
+
+    {message && <p style={styles.message}>{message}</p>}
+
+    <div style={styles.grid}>
+      {services.map((service) => (
+        <ServiceCard
+          key={service.id}
+          serviceName={service.serviceName}
+          description={service.description}
+          icon={service.icon}
+          onRequest={() => handleRequest(service)}
+          loading={loading}
+        />
+      ))}
     </div>
-  );
+
+    <CustomRequestBox />
+
+    <div style={styles.contactBar}>
+      <a
+        href="https://wa.me/917721066484"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={styles.contactButton}
+      >
+        💬 WhatsApp Us
+      </a>
+
+      <a
+        href="tel:+917721066484"
+        style={styles.contactButton}
+      >
+        📞 Call Us
+      </a>
+    </div>
+  </div>
+);
 }
 
 const styles = {
@@ -111,6 +130,23 @@ const styles = {
     fontSize: '14px',
     cursor: 'pointer',
     },
+    contactBar: {
+  display: 'flex',
+  justifyContent: 'center',
+  gap: '16px',
+  marginTop: '24px',
+},
+contactButton: {
+  backgroundColor: '#ffffff',
+  border: '1px solid #cbd5e0',
+  borderRadius: '8px',
+  padding: '10px 20px',
+  fontSize: '14px',
+  fontWeight: '600',
+  color: '#2d3748',
+  textDecoration: 'none',
+  boxShadow: '0 2px 4px rgba(0,0,0,0.08)',
+},
 };
 
 export default Dashboard;
