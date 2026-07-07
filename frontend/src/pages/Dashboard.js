@@ -25,7 +25,6 @@ function Dashboard() {
     <h1 style={styles.heading}>Welcome to CareEase 👋</h1>
     <p style={styles.subheading}>What can we help you with today?</p>
 
-    {message && <p style={styles.message}>{message}</p>}
 
     <div style={styles.grid}>
       {services.map((service) => (
@@ -35,7 +34,6 @@ function Dashboard() {
           description={service.description}
           icon={service.icon}
           onRequest={() => handleRequest(service)}
-          loading={loading}
         />
       ))}
     </div>

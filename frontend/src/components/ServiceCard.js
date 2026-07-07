@@ -1,12 +1,12 @@
-function ServiceCard({ serviceName, description, icon, onRequest, loading }) {
+function ServiceCard({ serviceName, description, icon, onRequest }) {
   return (
     <div style={styles.card}>
       <div style={styles.icon}>{icon}</div>
       <h3 style={styles.title}>{serviceName}</h3>
       <p style={styles.description}>{description}</p>
-      <button style={styles.button} onClick={onRequest} disabled={loading}>
-        {loading ? 'Submitting...' : 'Request Service'}
-        </button>
+      <button style={styles.button} onClick={onRequest}>
+        Request Service
+      </button>
     </div>
   );
 }
