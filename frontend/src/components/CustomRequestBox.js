@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { createRequest } from '../api';
 
 function CustomRequestBox() {
-  const userName = localStorage.getItem('userName') || 'Guest';
   const [customText, setCustomText] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');

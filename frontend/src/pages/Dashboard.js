@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import ServiceCard from '../components/ServiceCard';
-import { createRequest } from '../api';
 import CustomRequestBox from '../components/CustomRequestBox';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,9 +15,6 @@ const services = [
 
 function Dashboard() {
   const navigate = useNavigate();
-  const userName = localStorage.getItem('userName') || 'User';
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
     
     function handleRequest(service) {
   navigate('/service-detail', { state: { service } });
