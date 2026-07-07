@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import ServiceCard from '../components/ServiceCard';
 import CustomRequestBox from '../components/CustomRequestBox';
 import { useNavigate } from 'react-router-dom';
