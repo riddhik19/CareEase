@@ -1,6 +1,9 @@
 CareEase 🤝
 A full-stack web application that helps elderly individuals request assistance for everyday tasks — from grocery shopping and medicine pickup to custom requests like watering plants or fixing a leaky tap.
-🌟 Features
+
+## 🚀 Try CareEase here
+
+🔗 [**CareEase Live Website**](https://care-ease-li4g.vercel.app/)
 
 ## 🌟 Features
 - **User Authentication** — Secure register and login with JWT tokens and bcrypt password hashing  
