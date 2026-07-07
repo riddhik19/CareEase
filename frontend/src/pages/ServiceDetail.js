@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { createRequest } from '../api';
+import { loadRazorpayScript } from '../utils/loadRazorpay';
+import { createPaymentOrder, verifyPayment, createRequest } from '../api';
 
 function ServiceDetail() {
   const { state } = useLocation();
@@ -8,7 +9,6 @@ function ServiceDetail() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // guard — if someone navigates here directly without a service
   if (!state || !state.service) {
     return (
       <div style={styles.center}>
@@ -22,23 +22,90 @@ function ServiceDetail() {
 
   const { service } = state;
 
-  async function handleConfirm() {
+  async function handlePayment() {
     setLoading(true);
     setError('');
 
+    // step 1 — load razorpay script
+    const scriptLoaded = await loadRazorpayScript();
+    if (!scriptLoaded) {
+      setError('Failed to load payment gateway. Check your internet connection.');
+      setLoading(false);
+      return;
+    }
+
+    // step 2 — create order on backend
+    let orderData;
     try {
-      await createRequest({
-        serviceName: service.serviceName,
-        description: service.description,
-        price: service.price,
-      });
-      navigate('/my-requests');
+      orderData = await createPaymentOrder(service.price);
     } catch (err) {
       setError(err.message);
-    } finally {
       setLoading(false);
+      return;
     }
+
+    // step 3 — open razorpay popup
+    const options = {
+      key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+      amount: orderData.amount,
+      currency: orderData.currency,
+      name: 'CareEase',
+      description: service.serviceName,
+      order_id: orderData.orderId,
+
+      handler: async function (response) {
+        // step 4 — verify payment on backend
+        try {
+          await verifyPayment({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            serviceName: service.serviceName,
+            description: service.description,
+            price: service.price,
+          });
+          navigate('/my-requests');
+        } catch (err) {
+          setError('Payment verification failed. Please contact support.');
+          setLoading(false);
+        }
+      },
+
+      prefill: {
+        name: localStorage.getItem('userName') || '',
+      },
+
+      theme: {
+        color: '#4A90D9',
+      },
+
+      modal: {
+        ondismiss: function () {
+          setLoading(false);
+        },
+      },
+    };
+
+    const razorpayInstance = new window.Razorpay(options);
+    razorpayInstance.open();
   }
+  async function handlePayLater() {
+  setLoading(true);
+  setError('');
+
+  try {
+    await createRequest({
+      serviceName: service.serviceName,
+      description: service.description,
+      price: service.price,
+    });
+    navigate('/my-requests');
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+}
 
   return (
     <div style={styles.container}>
@@ -60,8 +127,7 @@ function ServiceDetail() {
 
         <div style={styles.noteBox}>
           <p style={styles.noteText}>
-            💡 Payment is collected after the service is completed. 
-            You will receive a confirmation email once your request is submitted.
+            🔒 Secure payment via UPI, Card, or Net Banking — powered by Razorpay
           </p>
         </div>
 
@@ -69,17 +135,18 @@ function ServiceDetail() {
 
         <button
           style={styles.confirmButton}
-          onClick={handleConfirm}
+          onClick={handlePayment}
           disabled={loading}
         >
-          {loading ? 'Submitting...' : 'Confirm & Request ✓'}
+          {loading ? 'Processing...' : `Pay Now ₹${service.price}`}
         </button>
 
         <button
-          style={styles.backButton}
-          onClick={() => navigate('/dashboard')}
+          style={styles.payLaterButton}
+          onClick={handlePayLater}
+          disabled={loading}
         >
-          ← Back to Dashboard
+          Request & Pay After Service
         </button>
 
       </div>
@@ -160,14 +227,14 @@ const styles = {
     margin: 0,
   },
   noteBox: {
-    backgroundColor: '#fffbeb',
+    backgroundColor: '#ebf4ff',
     borderRadius: '8px',
     padding: '12px 16px',
     width: '100%',
   },
   noteText: {
     fontSize: '13px',
-    color: '#744210',
+    color: '#2b6cb0',
     margin: 0,
     lineHeight: '1.5',
   },
@@ -194,11 +261,23 @@ const styles = {
     color: '#e53e3e',
     fontSize: '13px',
     margin: 0,
+    textAlign: 'center',
   },
   center: {
     textAlign: 'center',
     marginTop: '100px',
   },
+  payLaterButton: {
+  backgroundColor: '#ffffff',
+  color: '#4A90D9',
+  border: '2px solid #4A90D9',
+  borderRadius: '8px',
+  padding: '14px',
+  fontSize: '15px',
+  fontWeight: '600',
+  cursor: 'pointer',
+  width: '100%',
+},
 };
 
 export default ServiceDetail;

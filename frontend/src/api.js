@@ -67,3 +67,45 @@ export async function loginUser(data) {
 
   return result;
 }
+
+export async function createPaymentOrder(amount) {
+  const token = localStorage.getItem('token');
+
+  const response = await fetch(`${BASE_URL}/api/payment/create-order`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({ amount }),
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Failed to create order');
+  }
+
+  return result;
+}
+
+export async function verifyPayment(data) {
+  const token = localStorage.getItem('token');
+
+  const response = await fetch(`${BASE_URL}/api/payment/verify`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Payment verification failed');
+  }
+
+  return result;
+}

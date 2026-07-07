@@ -18,6 +18,15 @@ const serviceRequestSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    paymentId: {
+      type: String,
+      default: '',
+    },
+    paymentStatus: {
+      type: String,
+      enum: ['Unpaid', 'Paid'],
+      default: 'Unpaid',
+    },
     status: {
       type: String,
       enum: ['Pending', 'Accepted', 'Completed'],

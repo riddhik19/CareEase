@@ -51,7 +51,6 @@ function MyRequests() {
 
   return (
     <div style={styles.container}>
-    
       <h1 style={styles.heading}>My Requests 📋</h1>
 
       {userRequests.length === 0 ? (
@@ -69,10 +68,21 @@ function MyRequests() {
                   {request.status}
                 </span>
               </div>
+
               <p style={styles.price}>₹{request.price}</p>
+
+              <span style={{
+                ...styles.paymentBadge,
+                backgroundColor: request.paymentStatus === 'Paid' ? '#68d391' : '#fed7d7',
+                color: request.paymentStatus === 'Paid' ? '#22543d' : '#742a2a',
+              }}>
+                {request.paymentStatus === 'Paid' ? '✅ Paid' : '⏳ Unpaid'}
+              </span>
+
               {request.description ? (
                 <p style={styles.description}>{request.description}</p>
               ) : null}
+
               <p style={styles.meta}>
                 By {request.userName || 'Guest'} · {new Date(request.createdAt).toLocaleDateString()}
               </p>
@@ -163,7 +173,14 @@ const styles = {
   fontWeight: '700',
   color: '#4A90D9',
   margin: '4px 0',
-},
+  },
+  paymentBadge: {
+  display: 'inline-block',
+  padding: '4px 12px',
+  borderRadius: '20px',
+  fontSize: '12px',
+  fontWeight: '600',
+  },
 };
 
 export default MyRequests;
