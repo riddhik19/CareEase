@@ -15,7 +15,11 @@ function Register() {
       setError('All fields are required');
       return;
     }
-
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
     setLoading(true);
     setError('');
 
