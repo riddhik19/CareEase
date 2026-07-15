@@ -35,10 +35,10 @@ router.post('/register', async (req, res) => {
     await user.save();
 
     const token = jwt.sign(
-      { id: user._id, name: user.name },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+    { id: user._id, name: user.name, email: user.email },
+    process.env.JWT_SECRET,
+    { expiresIn: '7d' }
+  );
 
     res.status(201).json({
       token,
@@ -73,9 +73,9 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, name: user.name },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+    { id: user._id, name: user.name, email: user.email },
+    process.env.JWT_SECRET,
+    { expiresIn: '7d' }
     );
 
     res.status(200).json({

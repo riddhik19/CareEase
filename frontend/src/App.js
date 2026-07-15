@@ -6,11 +6,12 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Navbar from './components/Navbar';
 import ServiceDetail from './pages/ServiceDetail';
+import AdminDashboard from './pages/AdminDashboard';
 
 function AppContent() {
   const location = useLocation();
   const userName = localStorage.getItem('userName') || '';
-  const hideNavbarPaths = ['/', '/login', '/register', '/service-detail'];
+  const hideNavbarPaths = ['/', '/login', '/register', '/service-detail', '/admin'];
   const showNavbar = !hideNavbarPaths.includes(location.pathname);
 
   return (
@@ -23,6 +24,7 @@ function AppContent() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/my-requests" element={<MyRequests />} />
         <Route path="/service-detail" element={<ServiceDetail />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </>
   );

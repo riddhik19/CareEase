@@ -109,3 +109,42 @@ export async function verifyPayment(data) {
 
   return result;
 }
+
+export async function getAllRequests() {
+  const token = localStorage.getItem('token');
+
+  const response = await fetch(`${BASE_URL}/api/admin/requests`, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Failed to fetch requests');
+  }
+
+  return result;
+}
+
+export async function updateRequestStatus(id, status) {
+  const token = localStorage.getItem('token');
+
+  const response = await fetch(`${BASE_URL}/api/admin/requests/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({ status }),
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || 'Failed to update status');
+  }
+
+  return result;
+}
